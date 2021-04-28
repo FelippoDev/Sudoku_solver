@@ -1,14 +1,55 @@
 import pygame
+import Solver as s
 
 pygame.init()
+surface = pygame.display.set_mode((700, 470))
+pygame.display.set_caption('Sudoku Solver Created by FelippoDev')
+font = pygame.font.Font(None, 60)
 
-surface = pygame.display.set_mode((500, 500))
-surface.fill((0, 0, 0))
 
-pygame.display.set_caption("FelippoDev Sudoku Solver")
+def background():
+    surface.fill((255, 255, 255))
+    pygame.draw.rect(surface, (0, 0, 0), pygame.Rect(10, 10, 450, 450), 3)
+    x, y = 10, 10
+    n = 50
+    for i in range(9):
+        if i % 3 == 0:
+            w = 2
+        else:
+            w = 1
+        pygame.draw.line(surface, (0, 0, 0), (x, 10), (x, 458), width=w)
+        pygame.draw.line(surface, (0, 0, 0), (10, y), (458, y), width=w)
+        x += n
+        y += n
 
-run = True
-while run:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
+    draw_num()
+    pygame.display.update()
+
+
+def draw_num():
+    posX = 25
+    posY = 20
+    d = 50
+    for x in range(9):
+        if x > 0:
+            posY += d
+            posX = 25
+        for y in range(9):
+            op = s.board[x][y]
+            if op != 0:
+                n_text = font.render(str(op), True, (0, 0, 0))
+                surface.blit(n_text, (posX, posY))
+            posX += d
+
+
+def main():
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+        background()
+        draw_num()
+
+
+main()
