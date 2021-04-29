@@ -1,5 +1,9 @@
 import pygame
 import Solver as s
+import numpy as np
+
+change = None
+new_board = []
 
 pygame.init()
 surface = pygame.display.set_mode((700, 470))
@@ -22,9 +26,6 @@ def background():
         x += n
         y += n
 
-    draw_num()
-    pygame.display.update()
-
 
 def draw_num():
     posX = 25
@@ -35,21 +36,49 @@ def draw_num():
             posY += d
             posX = 25
         for y in range(9):
-            op = s.board[x][y]
-            if op != 0:
-                n_text = font.render(str(op), True, (0, 0, 0))
+            output = s.board[x][y]
+            if output != 0:
+                n_text = font.render(str(output), True, (0, 0, 0))
+                surface.blit(n_text, (posX, posY))
+            posX += d
+
+
+def solving():
+    posX = 25
+    posY = 20
+    d = 50
+    for x in range(9):
+        if x > 0:
+            posY += d
+            posX = 25
+        for y in range(9):
+            output = s.result[x][y]
+            if output != 0:
+                n_text = font.render(str(output), True, (0, 0, 0))
                 surface.blit(n_text, (posX, posY))
             posX += d
 
 
 def main():
+    ans = False
     run = True
     while run:
+        background()
+        if ans == True:
+            solving()
+        else:
+            draw_num()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-        background()
-        draw_num()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    ans = True
+                    solving()
+                    print('space bar was pressed')
+
+        pygame.display.update()
 
 
 main()
