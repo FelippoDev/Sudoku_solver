@@ -53,9 +53,8 @@ def solving():
             posX = 25
         for y in range(9):
             output = s.result[x][y]
-            if output != 0:
-                n_text = font.render(str(output), True, (0, 0, 0))
-                surface.blit(n_text, (posX, posY))
+            n_text = font.render(str(output), True, (0, 0, 0))
+            surface.blit(n_text, (posX, posY))
             posX += d
 
 
@@ -76,8 +75,6 @@ def main():
                 if event.key == pygame.K_SPACE:
                     ans = True
                     solving()
-                    print('space bar was pressed')
-
         pygame.display.update()
 
 
